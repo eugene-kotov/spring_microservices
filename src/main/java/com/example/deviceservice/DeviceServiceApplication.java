@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,12 +30,16 @@ public class DeviceServiceApplication {
                     .forEach(deviceRepository::save);
 
             deviceRepository.findAll().forEach(System.out::println);
+
+            Device macbook = deviceRepository.findByName("MacBook Pro 16");
+            System.out.println(macbook);
         };
     }
 }
 
+@RepositoryRestResource
 interface DeviceRepository extends JpaRepository<Device, Long> {
-
+    Device findByName(String name);
 }
 
 @Data
